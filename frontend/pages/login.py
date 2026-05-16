@@ -10,14 +10,6 @@ def show():
     }
     [data-testid="stHeader"] { background: transparent !important; }
     footer, #MainMenu { visibility: hidden; }
-    @media (max-width: 768px) {
-      [data-testid="stMainBlockContainer"] { 
-        max-width: 100% !important; 
-        padding: 24px 20px !important;
-        margin-top: 0 !important;
-      }
-    }
-    
     [data-testid="stMainBlockContainer"] { max-width: 420px !important; margin: 0 auto !important; padding-top: 80px !important; }
     .stTextInput input { background: #1C2333 !important; color: #F4F1EB !important; border: 1px solid rgba(200,241,53,0.2) !important; border-radius: 6px !important; }
     .stTextInput input:focus { border-color: #C8F135 !important; box-shadow: none !important; }
@@ -75,4 +67,3 @@ def show():
     if st.button("← Back to home"):
         st.session_state.page = "landing"
         st.rerun()
-# Note: login.py already uses max-width:420px centered layout which works on mobile
