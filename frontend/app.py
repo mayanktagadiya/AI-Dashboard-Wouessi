@@ -31,25 +31,27 @@ a[href*="github.com"] { display: none !important; }
 
 /* ── MOBILE RESPONSIVENESS ── */
 
+/* Floating hamburger button — shown only on mobile */
+#mob-nav-btn {
+    display: none;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 999999;
+    background: #1e1e3a;
+    color: #fff;
+    border: 1px solid #555;
+    border-radius: 8px;
+    padding: 8px 13px;
+    font-size: 20px;
+    cursor: pointer;
+    line-height: 1;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
 /* Tablet (≤768px): 4-col → 2-col */
 @media (max-width: 768px) {
-    /* Restore the header so the hamburger/sidebar toggle is accessible */
-    header { visibility: visible !important; }
-    [data-testid="stHeader"] {
-        display: flex !important;
-        background: transparent !important;
-        height: 3rem !important;
-    }
-    /* Keep hiding branding inside the header */
-    [data-testid="stStatusWidget"],
-    [data-testid="stDecoration"],
-    .viewerBadge_container__1QSob,
-    .viewerBadge_link__1S137,
-    a[href*="streamlit.io"],
-    a[href*="github.com"],
-    [data-testid="baseButton-headerNoPadding"]:not([data-testid="collapsedControl"]) {
-        display: none !important;
-    }
+    #mob-nav-btn { display: block !important; }
 
     /* Stack columns into 2-per-row */
     [data-testid="stHorizontalBlock"] {
@@ -60,43 +62,28 @@ a[href*="github.com"] { display: none !important; }
         min-width: calc(50% - 0.5rem) !important;
         flex: 1 1 calc(50% - 0.5rem) !important;
     }
-    /* Reduce page padding */
+    /* Reduce page padding — extra top space for the floating button */
     .block-container {
         padding-left: 1rem !important;
         padding-right: 1rem !important;
         padding-top: 3.5rem !important;
     }
     /* Smaller metric values */
-    [data-testid="stMetricValue"] {
-        font-size: 1.4rem !important;
-    }
-    [data-testid="stMetricLabel"] {
-        font-size: 0.75rem !important;
-    }
+    [data-testid="stMetricValue"] { font-size: 1.4rem !important; }
+    [data-testid="stMetricLabel"] { font-size: 0.75rem !important; }
     /* Prevent dataframes from breaking layout */
-    [data-testid="stDataFrame"] {
-        overflow-x: auto !important;
-        max-width: 100% !important;
-    }
+    [data-testid="stDataFrame"] { overflow-x: auto !important; max-width: 100% !important; }
     /* Charts fill width */
     [data-testid="stPlotlyChart"],
-    [data-testid="stArrowVegaLiteChart"] {
-        width: 100% !important;
-        overflow-x: auto !important;
-    }
+    [data-testid="stArrowVegaLiteChart"] { width: 100% !important; overflow-x: auto !important; }
     /* Sidebar as overlay */
-    [data-testid="stSidebar"] {
-        width: 260px !important;
-    }
+    [data-testid="stSidebar"] { width: 260px !important; }
     /* Header wraps gracefully */
-    .wh-top, .wh-bottom {
-        flex-wrap: wrap !important;
-        gap: 8px !important;
-    }
-    .wh-title {
-        font-size: 1.1rem !important;
-    }
+    .wh-top, .wh-bottom { flex-wrap: wrap !important; gap: 8px !important; }
+    .wh-title { font-size: 1.1rem !important; }
 }
+
+/* Phone (≤480px): everything single column */
 
 /* Phone (≤480px): everything single column */
 @media (max-width: 480px) {
@@ -122,6 +109,21 @@ a[href*="github.com"] { display: none !important; }
     }
 }
 </style>
+""", unsafe_allow_html=True)
+
+# ── MOBILE HAMBURGER BUTTON ───────────────────────────────
+st.markdown("""
+<button id="mob-nav-btn" onclick="
+  var btn = document.querySelector('[data-testid=stSidebarCollapsedControl] button')
+         || document.querySelector('section[data-testid=stSidebarCollapsedControl] button')
+         || document.querySelector('[data-testid=collapsedControl]');
+  if (btn) { btn.click(); return; }
+  var sidebar = document.querySelector('[data-testid=stSidebar]');
+  if (sidebar) {
+    var cur = sidebar.style.marginLeft;
+    sidebar.style.marginLeft = (cur === '0px' || cur === '') ? '-260px' : '0px';
+  }
+">&#9776;</button>
 """, unsafe_allow_html=True)
 
 # ── SESSION STATE DEFAULTS ───────────────────────────────
